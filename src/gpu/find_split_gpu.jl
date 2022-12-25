@@ -218,7 +218,7 @@ function update_gains_kernel!(
     j = js[blockIdx().x]
     monotone_constraint = monotone_constraints[j]
     K = (size(hL, 1) - 1) ÷ 2
-    for k = 1:K
+    @inbounds for k = 1:K
         if bin == nbins
             gains[bin, j] +=
                 hL[k, bin, j]^2 / (hL[k+K, bin, j] + lambda * hL[end, bin, j]) / 2
@@ -236,6 +236,8 @@ function update_gains_kernel!(
                         hR[k, bin, j]^2 / (hR[k+K, bin, j] + lambda * hR[end, bin, j])
                     ) / 2
             end
+        else
+            gains[bin, j] = 0
         end
     end # loop on K
     sync_threads()
