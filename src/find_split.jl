@@ -291,11 +291,11 @@ function update_gains!(
     gains = node.gains
     ∑ = node.∑
 
-    node.h .= node.h
-    node.hL .= 0
-    node.hR .= 0
-    node.gains .= 0
-    node.∑ .= node.∑
+    # node.h .= node.h
+    # node.hL .= 0
+    # node.hR .= 0
+    # node.gains .= 0
+    # node.∑ .= node.∑
 
     @inbounds for j in js
         @inbounds for k = 1:KK
