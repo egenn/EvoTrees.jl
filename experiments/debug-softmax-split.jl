@@ -41,11 +41,11 @@ mean(y_train)
 sum(ytrain .== true) ./ length(y_train)
 
 @info "evotrees train GPU:"
-params_evo.device = "gpu"
+params_evo.device = :gpu
 @time m_evo = fit_evotree(params_evo; x_train, y_train);
 
 @info "evotrees train CPU:"
-params_evo.device = "cpu"
+params_evo.device = :cpu
 @time m_evo = fit_evotree(params_evo; x_train, y_train);
 # @time m_evo = fit_evotree(params_evo; x_train, y_train);
 # @time m_evo = fit_evotree(params_evo; x_train, y_train);

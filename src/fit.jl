@@ -335,7 +335,7 @@ function fit_evotree(
 ) where {L,T}
 
     # initialize model and cache
-    if String(params.device) == "gpu"
+    if params.device == :gpu
         m, cache = init_evotree_gpu(params; x_train, y_train, w_train, offset_train, fnames)
     else
         m, cache = init_evotree(params; x_train, y_train, w_train, offset_train, fnames)
@@ -372,7 +372,7 @@ function fit_evotree(
             (logger[:iter_since_best] >= logger[:early_stopping_rounds]) && break
         end # end of callback
     end
-    if String(params.device) == "gpu"
+    if params.device == :gpu
         GC.gc(true)
         CUDA.reclaim()
     end
