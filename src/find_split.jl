@@ -322,18 +322,18 @@ function update_gains!(
         end
     end
 
-    # hL2 = copy(hL) .* 0
-    # hR2 = copy(hR) .* 0
-    # cumsum!(hL2, h, dims = 2)
-    # hR2 .= view(hL2, :, params.nbins:params.nbins, :) .- hL2
+    hL2 = copy(hL) .* 0
+    hR2 = copy(hR) .* 0
+    cumsum!(hL2, h, dims = 2)
+    hR2 .= view(hL2, :, params.nbins:params.nbins, :) .- hL2
 
     # cumsum!(hL, h, dims = 2)
     # hR .= view(hL, :, params.nbins:params.nbins, :) .- hL
 
     # @info "max abs diff hL" maximum(abs.(hL[3, :, :] .- hL2[3, :, :]))
     # @info "max abs diff hR" maximum(abs.(hR[3, :, :] .- hR2[3, :, :]))
-    # @info "minimum(hR[3,:,:])" minimum(hR[3, :, :])
-    # @info "minimum(hR2[3,:,:])" minimum(hR2[3, :, :])
+    @info "minimum(hR[3,:,:])" minimum(hR[3, :, :])
+    @info "minimum(hR2[3,:,:])" minimum(hR2[3, :, :])
     # @info "minimum(hR2[3,:,:])" minimum(hR2[3, :, :])
     # @info "node.∑" node.∑
     # @info "sum(node.h, dims=2)" sum(node.h, dims=2)
