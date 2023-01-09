@@ -50,7 +50,7 @@ function predict!(pred::Matrix, tree::Tree{L,K,T}, X) where {L<:Softmax,K,T}
         @inbounds for k = 1:K
             pred[k, i] += tree.pred[k, nid]
         end
-        @views pred[:, i] .= max.(-15, pred[:, i] .- maximum(pred[:, i]))
+        @views pred[:, i] .= max.(-8, pred[:, i] .- maximum(pred[:, i]))
     end
     return nothing
 end

@@ -290,7 +290,7 @@ function update_gains!(
     hL = node.hL
     hR = node.hR
     gains = node.gains
-    # ∑ = node.∑
+    ∑ = node.∑
 
     # h = deepcopy(node.h)
     # hL = deepcopy(node.hL)
@@ -307,28 +307,28 @@ function update_gains!(
     # node.gains .= 0
     # node.∑ .= node.∑
 
-    # @inbounds for j in js
-    #     @inbounds for k = 1:KK
-    #         val = h[k, 1, j]
-    #         hL[k, 1, j] = val
-    #         hR[k, 1, j] = ∑[k] - val
-    #     end
-    #     @inbounds for bin = 2:params.nbins
-    #         @inbounds for k = 1:KK
-    #             val = h[k, bin, j]
-    #             hL[k, bin, j] = hL[k, bin-1, j] + val
-    #             hR[k, bin, j] = hR[k, bin-1, j] - val
-    #         end
-    #     end
-    # end
+    @inbounds for j in js
+        @inbounds for k = 1:KK
+            val = h[k, 1, j]
+            hL[k, 1, j] = val
+            hR[k, 1, j] = ∑[k] - val
+        end
+        @inbounds for bin = 2:params.nbins
+            @inbounds for k = 1:KK
+                val = h[k, bin, j]
+                hL[k, bin, j] = hL[k, bin-1, j] + val
+                hR[k, bin, j] = hR[k, bin-1, j] - val
+            end
+        end
+    end
 
     # hL2 = copy(hL) .* 0
     # hR2 = copy(hR) .* 0
     # cumsum!(hL2, h, dims = 2)
     # hR2 .= view(hL2, :, params.nbins:params.nbins, :) .- hL2
 
-    cumsum!(hL, h, dims = 2)
-    hR .= view(hL, :, params.nbins:params.nbins, :) .- hL
+    # cumsum!(hL, h, dims = 2)
+    # hR .= view(hL, :, params.nbins:params.nbins, :) .- hL
 
     # @info "max abs diff hL" maximum(abs.(hL[3, :, :] .- hL2[3, :, :]))
     # @info "max abs diff hR" maximum(abs.(hR[3, :, :] .- hR2[3, :, :]))
@@ -358,11 +358,11 @@ function update_gains!(
         end
     end
 
-    # node.h .= h
-    # node.hL .= node.hL
-    # node.hR .= hR
-    # node.gains .= gains
-    # node.∑ .= ∑
+    # node.h = h
+    # node.hL = node.hL
+    # node.hR = hR
+    # node.gains = gains
+    # node.∑ = ∑
 
     return nothing
 end
