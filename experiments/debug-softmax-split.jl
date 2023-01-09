@@ -42,10 +42,12 @@ sum(ytrain .== true) ./ length(y_train)
 
 @info "evotrees train CPU:"
 params_evo.device = "cpu"
-@time m_evo = fit_evotree(params_evo; x_train, y_train);
+@time m_evo = fit_evotree(params_evo; x_train, y_train, x_eval = x_train, y_eval = y_train, metric=:mlogloss, print_every_n = 1);
 # @time m_evo = fit_evotree(params_evo; x_train, y_train);
 # @time m_evo = fit_evotree(params_evo; x_train, y_train);
 
+p = m_evo(x_train)
+minimum(p), maximum(p)
 # function h1(h, hL, hR, ∑, K, nbins)
 #     KK = 2 * K + 1
 #     @inbounds for j in js
