@@ -9,6 +9,30 @@ using Distributions
 using EvoTrees
 using EvoTrees: logit, sigmoid
 
+
+using MLJ, MLJBase, EvoTrees, StableRNGs, MLJXGBoostInterface
+
+n = 50_000
+nrounds = 200
+max_depth = 6
+eta = 0.3
+nbins = 32
+lambda = 0
+resampling = StratifiedCV(nfolds=10)
+rng = StableRNG(123)
+X, y = make_blobs(n, rng=rng)
+
+evomach = machine(EvoTreeClassifier(T = Float64, nrounds=nrounds, max_depth=max_depth+1, eta=eta, lambda=lambda, nbins=nbins, rng=rng), X, y)
+@time evores = evaluate!(evomach, measure=log_loss, resampling = resampling);
+p = evomach.fitresult(matrix(X))
+minimum(p), maximum(p)
+
+# xgmach = machine(XGBoostClassifier(num_round=nrounds, max_depth=max_depth, eta=eta, lambda=lambda, max_bin=nbins, seed=1), X, y)
+# xgres = evaluate!(xgmach, measure=log_loss, resampling = resampling)
+
+@info string("EvoTrees LogLoss: ", evores.measurement[1])
+@info string("XGBoost LogLoss: ", xgres.measurement[1])
+
 ##################################################
 ### Regression - small data
 ##################################################
