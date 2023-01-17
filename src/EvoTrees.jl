@@ -1,6 +1,6 @@
 module EvoTrees
 
-export init_evotree, grow_evotree!, fit_evotree, importance
+export init_evotree, grow_evotree!, fit_evotree, importance, predict_evotree
 export EvoTreeRegressor,
     EvoTreeCount,
     EvoTreeClassifier,
@@ -53,6 +53,8 @@ include("callback.jl")
 include("importance.jl")
 include("plot.jl")
 include("MLJ.jl")
+
+const predict_evotree = predict
 
 function convert(::Type{EvoTree}, m::EvoTreeGPU{L,K,T}) where {L,K,T}
     EvoTrees.EvoTree{L,K,T}(
